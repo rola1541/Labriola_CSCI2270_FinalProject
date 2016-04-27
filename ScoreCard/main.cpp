@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Game.h"
 
 using namespace std;
@@ -43,6 +44,17 @@ void outMenu()
     cout << "3. Strike out" << endl;
 }
 
+void findGameMenu()
+{
+    cout << "What would you like to know about this game" << endl;
+    cout << "1. Print lineup" << endl;
+    cout << "2. Full box score" << endl;
+    cout << "3. Print player stats" << endl;
+    cout << "4. Print scoring plays" << endl;
+    cout << "5. Print substitutions" << endl;
+    cout << "6. Erase game" << endl;
+}
+
 int main()
 {
     int mainMenuChoice;
@@ -55,7 +67,11 @@ int main()
     int outMenuChoice;
     int runsRecorded;
     int outsRecorded;
+    int findGameMenuChoice;
     string teamsPlaying;
+    string playerOut;
+    string playerIn;
+    string findPlayerStats;
     Game scoreBook;
     while(mainMenuChoice != 3)
     {
@@ -65,6 +81,7 @@ int main()
         {
             cout<< "What game number is this?" << endl;
             cin >> game;
+            game = game - 1;
             cout<< "Who is playing" << endl;
             cin.ignore();
             getline(cin, teamsPlaying);
@@ -74,6 +91,7 @@ int main()
                 int awayOuts = 0;
                 while(awayOuts != 3)
                 {
+                    cout <<"It is the top of inning #" << inning << ": " << awayOuts<< " out(s)" << endl;
                     gameMainMenu();
                     cin >> gameMainMenuChoice;
                     if(gameMainMenuChoice == 1)
@@ -93,30 +111,129 @@ int main()
                             cin >> runsRecorded;
                             if(hitMenuChoice == 1)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].hits++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" singles in run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].hits++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].awayLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" singles in run(s): ");
+                                    }
+                                }
                             }
                             else if(hitMenuChoice == 2)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].hits++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].doubles++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->doubles++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" doubles in run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].hits++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].doubles++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].awayLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" doubles in run(s): ");
+                                    }
+                                }
                             }
                             else if(hitMenuChoice == 3)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].hits++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].triples++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->triples++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" triples in run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].hits++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].triples++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].awayLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" triples in run(s): ");
+                                    }
+                                }
                             }
                             else if(hitMenuChoice == 4)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].hits++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].homeRuns++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->homeRuns++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" hits a home run to score run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].hits++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].homeRuns++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn = scoreBook.allGames[game].awayLineup[awayBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].awayLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" hits a home run to score run(s): ");
+                                    }
+                                }
                             }
                         }
                         else if(batterMenuChoice == 2)
@@ -127,34 +244,89 @@ int main()
                             cin >> outsRecorded;
                             if(outMenuChoice == 1)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                }
                                 awayOuts = awayOuts + outsRecorded;
                             }
                             else if(outMenuChoice == 2)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                }
                                 awayOuts = awayOuts + outsRecorded;
                             }
                             else if(outMenuChoice == 3)
                             {
-                                scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
-                                scoreBook.allGames[game].awayLineup[awayBatter].strikeOuts;
+                                if(scoreBook.allGames[game].awayLineup[awayBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].awayLineup[awayBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->strikeOuts++;
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].awayLineup[awayBatter].atBats++;
+                                    scoreBook.allGames[game].awayLineup[awayBatter].strikeOuts++;
+                                }
                                 awayOuts++;
                             }
                         }
                     }
                     else if(gameMainMenuChoice == 2)
                     {
-
+                        cout << "What player is being replaced" << endl;
+                        cin>>playerOut;
+                        cout << "Who is replacing him" << endl;
+                        cin>>playerIn;
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.allGames[game].substitutions.append(playerIn);
+                        scoreBook.allGames[game].substitutions.append(" replaced ");
+                        scoreBook.allGames[game].substitutions.append(playerOut);
+                        scoreBook.allGames[game].substitutions.append(": ");
                     }
                     else if(gameMainMenuChoice == 3)
                     {
-
+                        cout << "What player is being replaced" << endl;
+                        cin>>playerOut;
+                        cout << "Who is replacing him" << endl;
+                        cin>>playerIn;
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.allGames[game].substitutions.append(playerIn);
+                        scoreBook.allGames[game].substitutions.append(" replaced ");
+                        scoreBook.allGames[game].substitutions.append(playerOut);
+                        scoreBook.allGames[game].substitutions.append(": ");
                     }
                 }
                 int homeOuts = 0;
                 while(homeOuts != 3)
                 {
+                    cout <<"It is the bottom of inning #" << inning << ": " << homeOuts << " out(s)" << endl;
                     gameMainMenu();
                     cin >> gameMainMenuChoice;
                     if(gameMainMenuChoice == 1)
@@ -174,30 +346,129 @@ int main()
                             cin >> runsRecorded;
                             if(hitMenuChoice == 1)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].hits++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" singles in run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].hits++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].homeLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" singles in run(s): ");
+                                    }
+                                }
                             }
                             else if(hitMenuChoice == 2)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].hits++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].doubles++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->doubles++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" doubles in run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].hits++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].doubles++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].homeLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" doubles in run(s): ");
+                                    }
+                                }
                             }
                             else if(hitMenuChoice == 3)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].hits++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].triples++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->triples++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" triples in run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].hits++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].triples++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].homeLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" triples in run(s): ");
+                                    }
+                                }
                             }
                             else if(hitMenuChoice == 4)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].hits++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].homeRuns++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->hits++;
+                                    tmp->homeRuns++;
+                                    tmp->runsBattedIn = tmp->runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(tmp->name);
+                                        scoreBook.allGames[game].scoringPlays.append(" hits a home run to score run(s): ");
+                                    }
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].hits++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].homeRuns++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn = scoreBook.allGames[game].homeLineup[homeBatter].runsBattedIn + runsRecorded;
+                                    if(runsRecorded > 0)
+                                    {
+                                        scoreBook.allGames[game].scoringPlays.append(scoreBook.allGames[game].homeLineup[awayBatter].name);
+                                        scoreBook.allGames[game].scoringPlays.append(" hits a home run to score run(s): ");
+                                    }
+                                }
                             }
                         }
                         else if(batterMenuChoice == 2)
@@ -208,36 +479,123 @@ int main()
                             cin >> outsRecorded;
                             if(outMenuChoice == 1)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                }
                                 homeOuts = homeOuts + outsRecorded;
                             }
                             else if(outMenuChoice == 2)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                }
                                 homeOuts = homeOuts + outsRecorded;
                             }
                             else if(outMenuChoice == 3)
                             {
-                                scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
-                                scoreBook.allGames[game].homeLineup[homeBatter].strikeOuts;
+                                if(scoreBook.allGames[game].homeLineup[homeBatter].next != NULL)
+                                {
+                                    player *tmp = scoreBook.allGames[game].homeLineup[homeBatter].next;
+                                    while(tmp->next != NULL)
+                                    {
+                                        tmp = tmp->next;
+                                    }
+                                    tmp->atBats++;
+                                    tmp->strikeOuts++;
+                                }
+                                else
+                                {
+                                    scoreBook.allGames[game].homeLineup[homeBatter].atBats++;
+                                    scoreBook.allGames[game].homeLineup[homeBatter].strikeOuts++;
+                                }
                                 homeOuts++;
                             }
                         }
                     }
                     else if(gameMainMenuChoice == 2)
                     {
-
+                        cout << "What player is being replaced" << endl;
+                        cin>>playerOut;
+                        cout << "Who is replacing him" << endl;
+                        cin>>playerIn;
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.allGames[game].substitutions.append(playerIn);
+                        scoreBook.allGames[game].substitutions.append(" replaced ");
+                        scoreBook.allGames[game].substitutions.append(playerOut);
+                        scoreBook.allGames[game].substitutions.append(": ");
                     }
                     else if(gameMainMenuChoice == 3)
                     {
-
+                        cout << "What player is being replaced" << endl;
+                        cin>>playerOut;
+                        cout << "Who is replacing him" << endl;
+                        cin>>playerIn;
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.substituePlayer(playerIn, playerOut, game);
+                        scoreBook.allGames[game].substitutions.append(playerIn);
+                        scoreBook.allGames[game].substitutions.append(" replaced ");
+                        scoreBook.allGames[game].substitutions.append(playerOut);
+                        scoreBook.allGames[game].substitutions.append(": ");
                     }
                 }
             }
         }
         else if(mainMenuChoice == 2)
         {
-
+            cout << "Which game" << endl;
+            cin>>game;
+            game = game - 1;
+            scoreBook.findGame(game);
+            findGameMenu();
+            cin>>findGameMenuChoice;
+            if(findGameMenuChoice == 1)
+            {
+                scoreBook.printLineUp(game);
+            }
+            else if(findGameMenuChoice == 2)
+            {
+                scoreBook.printFullBoxScore(game);
+            }
+            else if(findGameMenuChoice == 3)
+            {
+                cout << "Which player" << endl;
+                cin>>findPlayerStats;
+                scoreBook.printPlayerStats(findPlayerStats, game);
+            }
+            else if(findGameMenuChoice == 4)
+            {
+                scoreBook.printScoringPlays(game);
+            }
+            else if(findGameMenuChoice == 5)
+            {
+                scoreBook.printSubstitutions(game);
+            }
+            else if(findGameMenuChoice == 6)
+            {
+                scoreBook.deleteGame(game);
+                break;
+            }
         }
         else if(mainMenuChoice == 3)
         {

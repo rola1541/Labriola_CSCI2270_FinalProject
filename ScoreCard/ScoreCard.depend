@@ -1,12 +1,20 @@
 # depslib dependency file v1.0
-1461617879 source:/home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/main.cpp
+1461733029 source:/home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/main.cpp
 	<iostream>
+	<string>
 	"Game.h"
 
-1461625154 source:/home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/src/Game.cpp
+1461649411 source:/home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/src/Game.cpp
 	"Game.h"
 	<iostream>
 
 1461646715 /home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/include/Game.h
+	<iostream>
+
+1461736731 /home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/Game.h
+	<iostream>
+
+1461732591 source:/home/user/Dropbox/CSCI1300/CSCI-SEMESTER-2-MARCH-END-OF-SEMESTER/Labriola_CSCI2270_FinalProject/ScoreCard/Game.cpp
+	"Game.h"
 	<iostream>
 
