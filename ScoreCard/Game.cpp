@@ -21,16 +21,18 @@ void Game::deleteGame(int gameNumber)
     allGames[gameNumber] = NullBoxScore;
 }
 
-void Game::findGame(int gameNumber)
+bool Game::findGame(int gameNumber)
 {
 
     if(allGames[gameNumber].created == true)
     {
         cout << "Game found" << endl;
+        return true;
     }
     else
     {
         cout << "No game found" << endl;
+        return false;
     }
 }
 
