@@ -33,7 +33,7 @@ class Game
     public:
         Game();
         ~Game();
-        void findGame(int gameNumber);
+        bool findGame(int gameNumber);
         void printFullBoxScore(int gameNumber);
         void printPlayerStats(string playerName, int gameNumber);
         void printLineUp(int gameNumber);

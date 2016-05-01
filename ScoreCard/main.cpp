@@ -73,10 +73,14 @@ int main()
     string playerIn;
     string findPlayerStats;
     Game scoreBook;
+    bool found;
     while(mainMenuChoice != 3)
     {
         printMainMenu();
         cin >> mainMenuChoice;
+        if (isdigit(mainMenuChoice)){
+            cin >> mainMenuChoice;
+        }
         if(mainMenuChoice == 1)
         {
             cout<< "What game number is this?" << endl;
@@ -566,35 +570,37 @@ int main()
             cout << "Which game" << endl;
             cin>>game;
             game = game - 1;
-            scoreBook.findGame(game);
-            findGameMenu();
-            cin>>findGameMenuChoice;
-            if(findGameMenuChoice == 1)
-            {
-                scoreBook.printLineUp(game);
-            }
-            else if(findGameMenuChoice == 2)
-            {
-                scoreBook.printFullBoxScore(game);
-            }
-            else if(findGameMenuChoice == 3)
-            {
-                cout << "Which player" << endl;
-                cin>>findPlayerStats;
-                scoreBook.printPlayerStats(findPlayerStats, game);
-            }
-            else if(findGameMenuChoice == 4)
-            {
-                scoreBook.printScoringPlays(game);
-            }
-            else if(findGameMenuChoice == 5)
-            {
-                scoreBook.printSubstitutions(game);
-            }
-            else if(findGameMenuChoice == 6)
-            {
-                scoreBook.deleteGame(game);
-                break;
+            found = scoreBook.findGame(game);
+            if (found){
+                findGameMenu();
+                cin>>findGameMenuChoice;
+                if(findGameMenuChoice == 1)
+                {
+                    scoreBook.printLineUp(game);
+                }
+                else if(findGameMenuChoice == 2)
+                {
+                    scoreBook.printFullBoxScore(game);
+                }
+                else if(findGameMenuChoice == 3)
+                {
+                    cout << "Which player" << endl;
+                    cin>>findPlayerStats;
+                    scoreBook.printPlayerStats(findPlayerStats, game);
+                }
+                else if(findGameMenuChoice == 4)
+                {
+                    scoreBook.printScoringPlays(game);
+                }
+                else if(findGameMenuChoice == 5)
+                {
+                    scoreBook.printSubstitutions(game);
+                }
+                else if(findGameMenuChoice == 6)
+                {
+                    scoreBook.deleteGame(game);
+                    break;
+                }
             }
         }
         else if(mainMenuChoice == 3)
